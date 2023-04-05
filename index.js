@@ -4,8 +4,9 @@ const { db } = require("./db")
 const router = require("./src/controllers/main")
 const User = require("./src/models/UserModel")
 const app = express() // express'i ayaga kaldir
+const cors = require("cors")
 const PORT = 3000
-
+app.use(cors())
 app.use(bodyParser.json())
 app.use(router)
 

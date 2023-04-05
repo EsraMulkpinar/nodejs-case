@@ -16,7 +16,8 @@ const User = db.define("User",{
     },
     role:{
         type:DataTypes.STRING,
-        allowNull:false
+        allowNull:false,
+        defaultValue:"user"
     },
     token:{
         type:DataTypes.TEXT,

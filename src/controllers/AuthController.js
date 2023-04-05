@@ -5,8 +5,16 @@ const jwt = require('jsonwebtoken')
 
 authRouter.post('/register', async (req, res) => {
   try {
-    const response = await User.create(req.body)
+   const registeredUser = await User.findOne({where:{
+      user_name: req.body.user_name
+    }})
+    if(registeredUser){
+      res.status(400).send({message:"User already exists"})
+    }
+    else {
+      const response = await User.create(req.body)
     res.send(response)
+    }
   } catch (error) {
     res.send(error)
   }
@@ -41,7 +49,7 @@ authRouter.post('/login', async (req, res) => {
         })
       }
     } else {
-      res.send({
+      res.status(400).send({
         message: 'User not found',
       })
     }
@@ -49,7 +57,6 @@ authRouter.post('/login', async (req, res) => {
     console.log(error)
   }
 })
-
 authRouter.get('/logout', async (req, res) => {
   try {
     const foundUser = await User.findOne({
@@ -73,6 +80,18 @@ authRouter.get('/logout', async (req, res) => {
     // })
   } catch (error) {
     res.send(error)
+  }
+})
+authRouter.put("/updateRole/:id",async (req,res) => {
+  const foundUser = await User.findOne({where:{
+    id: req.params.id
+  }})
+  if(foundUser){
+    await foundUser.update({role: foundUser.getDataValue("role")  === "admin" ? "user" : "admin"})
+    res.send({message:"Role Updated successfully"})
+  }
+  else {
+    res.status(404).send({messae:"User not found"})
   }
 })
 

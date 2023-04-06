@@ -31,20 +31,16 @@ authRouter.post('/login', async (req, res) => {
         const token = jwt.sign(
           {
             exp: Math.floor(Date.now() / 1000) + 60 * 60,
+            role:response.getDataValue("role")
           },
           'my_secret',
         )
         response.update({
           token,
         })
-        res.send({
-          message: 'Login Successful',
-          data: {
-            token,
-          },
-        })
+        res.send( response)
       } else {
-        res.send({
+        res.status(400).send({
           message: 'Wrong password',
         })
       }
@@ -69,7 +65,7 @@ authRouter.get('/logout', async (req, res) => {
       })
     }
     else{
-        res.send({
+        res.status(404).send({
             message:"User not found"
         })
     }

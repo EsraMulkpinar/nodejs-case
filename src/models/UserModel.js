@@ -20,7 +20,7 @@ const User = db.define("User",{
         defaultValue:"user"
     },
     token:{
-        type:DataTypes.TEXT,
+        type:DataTypes.STRING,
         allowNull:true
     }
 

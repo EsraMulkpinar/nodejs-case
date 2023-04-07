@@ -9,10 +9,7 @@ userRouter.get('/', async (req, res) => {
 userRouter.get('/:id', async (req, res) => {
   try {
     const findUser = await User.findOne({ where: { id: req.params.id } })
-    res.send({
-      data: findUser,
-      message: 'Succesfully User found ',
-    })
+    res.send(findUser)
   } catch (error) {
     res.status(400).send({
       message: 'Succesfully User found ',

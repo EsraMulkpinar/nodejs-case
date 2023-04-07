@@ -19,7 +19,16 @@ userRouter.get('/:id', async (req, res) => {
 
 userRouter.put("/:id",async (req,res) => {
   try {
-   const updatedUser = await User.update(req.body,{where:{
+      if(req.body.user_name){
+       const foundUser= await User.findOne({where:{
+          user_name:req.body.user_name
+        }})
+        if(foundUser){
+          res.status(400).send({message:"User already exist."})
+          return
+        }
+      }
+      const updatedUser = await User.update(req.body,{where:{
       id:req.params.id
     }})
     if(updatedUser){
